@@ -1,6 +1,6 @@
 """Jsonplaceholder client for generating test data"""
 from src.http_client import HttpClient
-from random import choice
+from random import randint
 from .constants import BASE_URL
 
 
@@ -9,10 +9,13 @@ class Jsonplaceholder(HttpClient):
 
     def __init__(self):
         super().__init__(base_url=BASE_URL)
-        self.user = choice(self.get_users())
+        self.user = self.get_user(randint(1, 10))
 
     def get_users(self):
         return self.get("/users").response
+
+    def get_user(self, id):
+        return self.get(f"/users/{id}").response
 
 
 jsonplaceholder = Jsonplaceholder()
