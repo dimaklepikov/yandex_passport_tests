@@ -5,17 +5,13 @@ from dotenv import load_dotenv
 
 
 @pytest.fixture(scope="class")
-def prepare_fake_login_data(request):
-    request.cls.fake_user = {
-        "login": jsonplaceholder.user["login"],
-        "password": jsonplaceholder.user["website"],
-    }
-
-
-@pytest.fixture(scope="class")
-def login_credentials(request):
+def get_auth_credentials(request):
     load_dotenv()
     request.cls.user = {
         "login": os.environ.get("LOGIN"),
         "password": os.environ.get("PASSWORD"),
+    }
+    request.cls.fake_user = {
+        "login": jsonplaceholder.user["username"],
+        "password": jsonplaceholder.user["website"],
     }

@@ -9,6 +9,7 @@ packages = [{include = "yandex_pasport_tests"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 python-dotenv = "^1.0.0"
+webdriver-manager = "^4.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

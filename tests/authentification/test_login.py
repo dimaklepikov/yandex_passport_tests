@@ -1,13 +1,16 @@
 import pytest
+from .models.auth_page import AuthPage
 
 
-@pytest.mark.usefixtures("login_credentials")
+@pytest.mark.usefixtures("get_auth_credentials")
 class TestLogin:
 
-    def test_login(self):
-        # A user to login to the YP service
-        a = self.user
-        pass
+    # TODO: Add configuration parsing - https://docs.python.org/3/library/configparser.html
+    # TODO: Add write-to-file sample service + fixture on teardown
+    # TODO: Add setup fixture where credentials are obtained + document it
+    # TODO: Add POM Locators for the Auth page
 
-    def test_login_with_a_fake_user(self):
-        pass
+    def test_login_page_is_displayed(self, driver):
+        page = AuthPage(driver)
+        page.get()
+        page.wait_element_visible(page)
