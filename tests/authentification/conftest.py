@@ -1,9 +1,9 @@
 """Inner pytest configuration file where credentials are obtained"""
 import pytest
-from lib.jsonplaceholder import jsonplaceholder
 import os
 from dotenv import load_dotenv
 
+from lib.jsonplaceholder import jsonplaceholder
 from src.models.user import User
 from .models.auth_page import AuthPage
 
@@ -12,12 +12,14 @@ from .models.auth_page import AuthPage
 def set_auth_credentials(request):
     load_dotenv()
     request.cls.user = User(
-        username=os.environ.get("LOGIN"),
-        password=os.environ.get("PASSWORD")
+        login=os.environ.get("LOGIN"),
+        password=os.environ.get("PASSWORD"),
+        email=""
     )
     request.cls.fake_user = User(
-        username=jsonplaceholder.user["username"],
-        password=jsonplaceholder.user["website"]
+        login="",
+        email=jsonplaceholder.user["email"],
+        password=jsonplaceholder.user["website"],
     )
 
 

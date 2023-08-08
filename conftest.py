@@ -28,3 +28,15 @@ def driver(request):
 
     # Add teardown callable to a finalizer
     request.addfinalizer(driver.quit)
+
+
+# @pytest.fixture(autouse=True)
+# def capture_test_result(request):
+#     yield
+#     outcome = request.node.rep_call
+#     test_name = request.node.name
+#     result = "PASSED" if outcome.passed else "FAILED"
+#
+#     with open("test_results.txt", "a") as file:
+#         file.write(f"Test: {test_name} - Result: {result}\n")
+#

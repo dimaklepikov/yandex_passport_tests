@@ -45,6 +45,10 @@ class Page:
         element = self.wait_element_visible(locator)
         element.send_keys(text)
 
+    def clear_input(self, locator):
+        element = self.wait_element_visible(locator)
+        element.clear()
+
     def get_text(self, locator):
         element = self.wait_element_visible(locator)
         return element.text

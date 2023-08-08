@@ -6,7 +6,6 @@ from .constants import REDIRECT_URL
 @pytest.mark.usefixtures("set_auth_credentials", "auth_page")
 class TestLogin:
 
-    # TODO: Add configuration parsing - https://docs.python.org/3/library/configparser.html
     # TODO: Add write-to-file sample service + fixture on teardown
 
     def test_login_page_is_displayed(self):
@@ -18,7 +17,7 @@ class TestLogin:
         # Login field
         assert self.page.wait_element_visible(self.page.login_input)
 
-        self.page.send_keys(self.page.login_input, self.user.username)
+        self.page.send_keys(self.page.login_input, self.user.login)
         self.page.wait_element_visible(self.page.enter_button)
         self.page.click(self.page.enter_button)
         # Password field
@@ -26,10 +25,10 @@ class TestLogin:
 
     def test_user_cant_login_with_blank_fields(self):
         self.page.click(self.page.enter_button)
-        # Blank username field
+        # Blank email field
         assert self.page.wait_element_not_visible(self.page.password_input, timeout=5)
 
-        self.page.send_keys(self.page.login_input, self.user.username)
+        self.page.send_keys(self.page.login_input, self.user.login)
         self.page.click(self.page.enter_button)
         self.page.wait_element_visible(self.page.password_input)
         # Blank password field
@@ -41,9 +40,18 @@ class TestLogin:
 
     def test_user_cant_login_with_invalid_credentails(self):
         # Enter fake login
-        self.page.send_keys(self.page.login_input, self.fake_user.username)
+        self.page.send_keys(self.page.login_input, self.fake_user.email)
+        self.page.click(self.page.enter_button)
+        self.page.wait_element_not_visible(self.page.password_input, 5)
+
+        # Refresh to clear input
+        self.driver.refresh()
+
+        # Enter correct login to enter password page
+        self.page.send_keys(self.page.login_input, self.user.login)
         self.page.click(self.page.enter_button)
         self.page.wait_element_visible(self.page.password_input)
+
         # Enter fake password
         self.page.send_keys(self.page.password_input, self.fake_user.password)
         self.page.click(self.page.enter_button)
@@ -51,9 +59,9 @@ class TestLogin:
         # Убедитесь, что пользователь не может войти в систему с неправильным именем пользователя или паролем
         assert self.driver.current_url != REDIRECT_URL
 
-    def test_user_can_login_by_username(self):
+    def test_user_can_login_by_email(self):
         # Enter login
-        self.page.send_keys(self.page.login_input, self.user.username)
+        self.page.send_keys(self.page.login_input, self.user.login)
         self.page.click(self.page.enter_button)
         self.page.wait_element_visible(self.page.password_input)
         # Enter password

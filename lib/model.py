@@ -1,4 +1,4 @@
-"""Abstract class to generate a model from JSON response"""
+"""Abstract class to generate a model from passed args"""
 
 
 class Model:
