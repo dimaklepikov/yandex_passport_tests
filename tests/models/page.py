@@ -17,6 +17,11 @@ class Page:
             EC.visibility_of_element_located(locator)
         )
 
+    def wait_element_not_visible(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until_not(
+            EC.presence_of_element_located(locator)
+        )
+
     def wait_for_element_to_be_clickable(self, locator, timeout=10):
         return WebDriverWait(self.driver, timeout).until(
             EC.element_to_be_clickable(locator)
@@ -24,6 +29,11 @@ class Page:
 
     def wait_until_url_is_changed_to(self, url, timeout=10):
         return WebDriverWait(self.driver, timeout).until(
+            EC.url_to_be(url)
+        )
+
+    def wait_until_url_is_not_changed_to(self, url, timeout=10):
+        return WebDriverWait(self.driver, timeout).until_not(
             EC.url_to_be(url)
         )
 

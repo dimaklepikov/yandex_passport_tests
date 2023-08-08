@@ -8,7 +8,7 @@ class TestLogin:
 
     # TODO: Add configuration parsing - https://docs.python.org/3/library/configparser.html
     # TODO: Add write-to-file sample service + fixture on teardown
-    # TODO: Add POM Locators for the Auth page
+    # TODO: Refactor User to be an entity model
 
     def test_login_page_is_displayed(self):
         # Убедитесь, что страница входа доступна и правильно загружается
@@ -26,8 +26,7 @@ class TestLogin:
         assert self.page.wait_element_visible(self.page.password_input)
 
     def test_user_can_login_by_username(self):
-        self.page.wait_element_visible(self.page.login_input)
-        # Enter password
+        # Enter login
         self.page.send_keys(self.page.login_input, self.user["login"])
         self.page.click(self.page.enter_button)
         self.page.wait_element_visible(self.page.password_input)
@@ -39,11 +38,31 @@ class TestLogin:
         assert self.driver.current_url == REDIRECT_URL
 
     def test_user_cant_login_with_blank_fields(self, driver):
+        self.page.click(self.page.enter_button)
+        # Blank username field
+        assert self.page.wait_element_not_visible(self.page.password_input, timeout=5)
+
+        self.page.send_keys(self.page.login_input, self.user["login"])
+        self.page.click(self.page.enter_button)
+        self.page.wait_element_visible(self.page.password_input)
+        # Blank password field
+        self.page.click(self.page.enter_button)
+
+        self.page.wait_until_url_is_not_changed_to(REDIRECT_URL, timeout=5)
         # Убедитесь, что пользователь не может войти в систему с пустым полем имени пользователя или пароля
-        pass
+        assert self.driver.current_url != REDIRECT_URL
 
     def test_user_cant_login_with_invalid_credentails(self, driver):
+        # Enter fake login
+        self.page.send_keys(self.page.login_input, self.fake_user["login"])
+        self.page.click(self.page.enter_button)
+        self.page.wait_element_visible(self.page.password_input)
+        # Enter fake password
+        self.page.send_keys(self.page.password_input, self.fake_user["password"])
+        self.page.click(self.page.enter_button)
+        self.page.wait_until_url_is_not_changed_to(REDIRECT_URL, timeout=5)
         # Убедитесь, что пользователь не может войти в систему с неправильным именем пользователя или паролем
-        pass
+        assert self.driver.current_url != REDIRECT_URL
 
 
+x
