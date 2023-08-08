@@ -6,8 +6,6 @@ from .constants import REDIRECT_URL
 @pytest.mark.usefixtures("set_auth_credentials", "auth_page")
 class TestLogin:
 
-    # TODO: Add write-to-file sample service + fixture on teardown
-
     def test_login_page_is_displayed(self):
         # Убедитесь, что страница входа доступна и правильно загружается
         assert self.page.wait_element_visible(self.page.locator)
