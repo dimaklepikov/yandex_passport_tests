@@ -8,3 +8,7 @@
 - `pip install poetry` ([Poetry docs](https://python-poetry.org/docs/))
 - `poetry install`  
 - `pytest -m auth`
+
+## Features:
+ - Tests might be run in parallel `pytest -n 4 -m auth`
+ - config file might be set up and parsed `config.ini`
