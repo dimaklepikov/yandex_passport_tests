@@ -22,6 +22,11 @@ class Page:
             EC.element_to_be_clickable(locator)
         )
 
+    def wait_until_url_is_changed_to(self, url, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.url_to_be(url)
+        )
+
     def click(self, locator):
         element = self.wait_for_element_to_be_clickable(locator)
         element.click()

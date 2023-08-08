@@ -13,6 +13,6 @@ def firefox():
 
 
 def chrome():
-    # FIXME: Remove hardcoded driver manager version
+    # FIXME: Rework hardcoded driver manager version - https://github.com/SergeyPirogov/webdriver_manager/issues/578
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(driver_version="114.0.5735.16").install()))
     return driver
